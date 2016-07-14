@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="content-type" content="text/html" charset="utf-8">
+  <title>Title</title>
+</head>
+<body>
+  <input type="text" id="str" value="       ddw   wedw">
+  <input type="button" id="rstrs" value="test">
+<script type="text/javascript">
+  window.onload = function () {
+    var _rstrBtn = document.getElementById('rstrs'),
+        _strs = document.getElementById('str');
+      _rstrBtn.onclick = function () {
+        //正则简单置换
+      _strs.value = _strs.value.replace( /^(\s|\u00A0)+|(\s|u00Ao)+$/g, "");
+    }
+  }
+</script>
+</body>
+</html>

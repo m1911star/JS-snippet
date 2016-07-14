@@ -1,0 +1,82 @@
+<html>
+<head>
+	<title>null</title>
+	<meta charset="UTF-8">
+	<script type="text/javascript">
+		var eventUtil = {
+			addListener: function (element, type, handler) {
+				if (element.addEventListener) {
+					element.addEventListener(type, handler, false);
+				} else if (element.attachEvent) {
+					element.attachEvent('on' + type, handler);
+				} else {
+					element['on' + type] = handler;
+				}
+			},
+      getEven : function () {
+        console.log('hello');
+      },
+			getEvent : function (event) {
+				return event || window.event;
+			},
+			getTarget: function (event) {
+				return event.target || event.srcElement;
+			},
+
+			preventDefault: function (event) {
+				if (event.preventDefault) {
+					event.preventDefault();
+				} else {
+					event.returnValue = false;
+				}
+			},
+
+			removeListener: function (element, type, handler) {
+				if (element.removeListener) {
+					element.removeEventListener(type, handler, false);
+				} else if(element.detachEvent) {
+					element.detachEvent(type, handler);
+				} else {
+					element['on' + type] = null;
+				}
+			},
+
+			stopPropagation : function (event) {
+				if (event.stopPropagation) {
+					event.stopPropagation();
+				} else {
+					event.cancelBubble = true;
+				}
+			}
+		}
+	</script>
+</head>
+<body>
+<input type="button" value="click me" id="btn" />
+<a href="https://www.baidu.com">百度</a>
+<script type="text/javascript">
+	(function () {
+		var btn = document.getElementById('btn');
+		var link = document.getElementsByTagName('a')[0];
+		eventUtil.addListener(link, 'click', function (event) {
+			alert('prevent default task');
+			var event = eventUtil.getEvent(event);
+			eventUtil.preventDefault(event);
+		});
+
+		eventUtil.addListener(btn, 'click', function (e) {
+			var event = eventUtil.getEvent(e);
+			var target = eventUtil.getTarget(event);
+			alert(event.type);
+			alert(target);
+			eventUtil.stopPropagation(event);
+		});
+
+		eventUtil.addListener(document.body, 'click', function (e) {
+			alert('click body');
+		});
+	})();
+</script>
+
+</body>
+</html>

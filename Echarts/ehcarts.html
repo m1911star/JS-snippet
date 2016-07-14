@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Echarts</title>
+	<script src="echarts.min.js"></script>
+</head>
+<body>
+	<div id="main" style="width: 600px; height: 400px;"></div>
+	<div id=""></div>
+	<script type="text/javascript">
+//		var echarts = echarts.init(document.getElementById('main'));
+//		var option = {
+//			title: {
+//				text: 'demo'
+//			},
+//			tooltip: {},
+//			legend: {
+//				data: ['销量']
+//			},
+//			xAxis: {
+//				data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+//			},
+//			yAxis: {},
+//			series: [{
+//				name: '销量',
+//				type: 'bar',
+//				data: [5, 20, 10, 35, , 10]
+//			}]
+//		};
+//
+//		echarts.setOption(option);
+	var base = +new Date(2014, 9, 3);
+	var oneDay = 24 * 3600 * 1000;
+	var date = [];
+
+	var data = [Math.random() * 150];
+	var now = new Date(base);
+
+	function addData(shift) {
+		now = [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('-');
+		date.push(now);
+		data.push((Math.random() - 0.4) * 10 + data[data.length - 1]);
+		if (shift) {
+			date.shift();
+			data.shift();
+		}
+		now = new Date(Date.parse(now) + 24 * 3600 * 1000);
+	}
+
+	for (var i = 1; i < 100; i++) {
+		addData();
+	}
+
+		var option = {
+			xAxis: {
+				type: 'category',
+				boundaryGap: false,
+				data: date
+			},
+			yAxis: {
+				boundaryGap: [0, '50%'],
+				type: 'value'
+			},
+			series: [
+				{
+					name: '成交',
+					type: 'line',
+					smooth: true,
+					symbol: 'none',
+					stack: 'a',
+					areaStyle: {
+						normal: {}
+					},
+					data: data
+				}
+			]
+		};
+		var echarts = echarts.init(document.getElementById('main'));
+		echarts.setOption(option);
+		setInterval(function () {
+			addData(true);
+			echarts.setOption({
+				xAxis: {
+					data: date
+				},
+				series: [{
+					name: '成交',
+					data: data
+				}]
+			});
+		}, 300);
+	</script>
+</body>
+</html>

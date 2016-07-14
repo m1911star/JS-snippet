@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Common Function</title>
+</head>
+<body>
+	<div id="box">哈哈哈哈</div>
+	<p style="height: -100px; width: -100px">dewdiwebdjhwbejhdbwejhbdjhbwehjd
+	dwenkdnkjwedkjnwe<br>
+	ddewduiowenkjdnwe
+	dwendikwejndjkwe
+	dmondwenjindkwe</p>
+	<div >fdkwendkwejnkdjnwekndwe</div>
+	<script type="text/javascript">
+		/**
+		 * addEventListener
+		 */
+		window.onload = function () {
+			var box = document.getElementById('box');
+			box.onclick = function () {
+				console.log('this is a test1');
+			}
+
+			box.onclick = function () {
+				box.style.fontSize = '18px';
+				console.log('this is 2');
+			}
+		}
+		window.addEventListener('close', function (e) {
+			e.stopPropagation();
+			alert('geklkli');
+			console.log(e);
+		});
+
+
+		/**
+		 * this test
+		 */
+//			this.a = 10;
+//			b = 120;
+//			var c = 100;
+//			console.log('a = ' + a + ', b = ' + b + ', c = ' + c);
+//			var a = 10;
+//			var bar = {
+//				a: 1000,
+//				test: function () {
+//					console.log(this
+//						.a);
+//				}
+//			};
+//			bar.test();
+		/**
+		 * 匿名函数中的this指向全局对象
+		 */
+		/*var a = 20;
+		var foo = {
+			a : 10,
+			fn: (function () {
+				alert(this.a);
+			})()
+		};
+		foo.fn;*/
+		/**
+		 * setInterval和setTimeout定时器中的this指向全局对象
+		 */
+		/*var a = 10;
+		var oTimer = setInterval(function () {
+			var a = 20;
+			alert(this.a);
+			clearInterval(oTimer);
+		}, 1000);*/
+//		var name = 2;
+//		var a = {
+//			name: 22,
+//			fn: (function () {
+//				console.log(this.name);
+//			})(),
+//			fn1: function () {
+//				console.log(this
+//					.name);
+//			}
+//		}
+//		a.fn;
+//		a.fn1();
+
+//	function increment() {
+//		var current = 0;
+//		return function () {
+//			current += 1;
+//			return current;
+//		}
+//	}
+//	console.log(increment()())
+
+	var name = 'Bob';
+	var nameObj = {
+		name: 'nameObj',
+		showName: function () {
+			alert(this.name)
+		},
+		waitShowName: function () {
+			var that = this;
+			setTimeout(function () {
+				that.showName();
+			}, 1000);
+		}
+	};
+	nameObj.waitShowName();
+
+
+	</script>
+
+</body>
+</html>

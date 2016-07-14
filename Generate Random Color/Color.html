@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Random Color</title>
+	<script type="text/javascript">
+		function getColor(min, max) {
+			var co = '';
+			co += (getRandom(min, max) + ',');
+			co += (getRandom(min, max) + ',');
+			co += (getRandom(min, max));
+			return RGB2Hex(co);
+		}
+
+		function getRandom(min, max) {
+			var x = max;
+			var y = min;
+			if (x < y) {
+				x = min;
+				y = max;
+			}
+			var rand = parseInt(Math.random() * (x - y + 1) + y);
+			return rand;
+		}
+
+		function RGB2Hex(rgb) {
+			var re = rgb.replace(/(?:\(|\)| rgb | RGB)*/g, '').split(',');
+			var hexColor = '#';
+			var hex = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
+			for (var i = 0; i < 3; i++) {
+				var r = null;
+				var c = re[i];
+				var hexAr = [];
+				while (c > 16) {
+					r = c % 16;
+					c = (c / 16) >> 0;
+					hexAr.push(hex[r]);
+				}
+				hexAr.push(hex[c]);
+				hexColor += hexAr.reverse().join('');
+			}
+
+			return hexColor;
+		}
+	</script>
+</head>
+<body>
+
+</body>
+</html>

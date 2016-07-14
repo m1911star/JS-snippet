@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>神策埋点配置辅助工具</title>
+  <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Optional theme -->
+  <link href="//cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" rel="stylesheet">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="//cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="js.beautify.min.js"></script>
+  <style >
+    input, textarea {
+      width: 500px;
+    }
+    textarea {
+      height: 500px;
+    }
+  </style>
+</head>
+<body>
+<div class="row">
+  <div class="" style="margin-left: 10%; margin-right: 10%; margin-top: 20px">
+    <div id="legend" class="">
+      <legend class="">神策埋点辅助工具<small>详情请看<a href="https://sensorsdata.cn/manual/js_sdk.html" target="_blank">文档</a></small></legend>
+    </div>
+    <div class="tabbable">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#panel-1" data-toggle="tab">可视化埋点</a></li>
+        <li>
+          <a href="#panel-2" data-toggle="tab">代码埋点</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="panel-1">
+          <div class="control-group">
+            <label class="control-label">sdk_url</label>
+            <div class="controls">
+              <input type="text" placeholder="" id="vtrack_sdk_url" class="input-xlarge">
+              <p class="help-block">文件'vtrack.min.js'路径，如'../vtrack.min.js'</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">server_url</label>
+            <div class="controls">
+              <input type="text" placeholder="" id="vtrack_server_url" class="input-xlarge">
+              <p class="help-block">数据接受地址http://{service_name}.cloud.sensorsdata.cn:8006/sa?token={project_token}</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">config_url</label>
+            <div class="controls">
+              <input type="text" placeholder="" id="vtrack_config_url" class="input-xlarge search-query">
+              <p class="help-block">http://{name}.cloud.sensorsdata.cn/api/vtrack/config</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <button class="btn btn-default" id="vtrack_generate_config" value="生成配置">
+                生成配置
+              </button>
+            </div>
+          </div><br>
+          <div class="control-group">
+            <label class="control-label">生成的代码配置如下</label>
+            <div class="controls">
+              <div class="textarea">
+                <pre><code id="vtrack_config_result"></code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="panel-2">
+          <div class="control-group">
+            <label class="control-label">sdk_url</label>
+            <div class="controls">
+              <input type="text" placeholder="" id="code_sdk_url" class="input-xlarge">
+              <p class="help-block">文件'sensorsdata.min.js'路径，如'../sensorsdata.min.js'</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">server_url</label>
+            <div class="controls">
+              <input type="text" placeholder="" id="code_server_url" class="input-xlarge">
+              <p class="help-block">数据接受地址http://{service_name}.cloud.sensorsdata.cn:8006/sa?token={project_token}</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">name</label>
+            <div class="controls">
+              <input type="text" placeholder="" id="code_name" class="input-xlarge search-query">
+              <p class="help-block">默认为sa, 此时可用<pre><code>sa.track()</code></pre>来追踪信息</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <button class="btn btn-default" id="code_generate_config" value="生成配置">
+                生成配置
+              </button>
+            </div>
+          </div><br>
+          <div class="control-group">
+            <label class="control-label">生成的代码配置如下</label>
+            <div class="controls">
+              <div class="textarea">
+                <pre><code id="code_config_result"></code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var options = '\<script\>\
+        (function(para) {\
+          var p = para.sdk_url, n = para.name, w = window, d = document, s = \'script\',x = null,y = null;\
+          w[\'sensorsDataAnalytic201505\'] = n;\
+          w[n] = w[n] || function(a) {return function() {(w[n]._q = w[n]._q || []).push([a, arguments]);}};\
+          var ifs = [\'track\',\'quick\',\'register\',\'registerPage\',\'registerOnce\',\'registerSession\',\'registerSessionOnce\',\'trackSignup\', \'trackAbtest\', \'setProfile\',\'setOnceProfile\',\'appendProfile\', \'incrementProfile\', \'deleteProfile\', \'unsetProfile\', \'identify\'];\
+          for (var i = 0; i < ifs.length; i++) {\
+            w[n][ifs[i]] = w[n].call(null, ifs[i]);\
+          }\
+          if (!w[n]._t) {\
+            x = d.createElement(s), y = d.getElementsByTagName(s)[0];\
+            x.async = 1;\
+            x.src = p;\
+            y.parentNode.insertBefore(x, y);\
+            w[n]._t = 1 * new Date();\
+            w[n].para = para;\
+          }\
+        })({\
+          sdk_url: \'在 github 下载新版本的 sensorsdata.min.js \',\
+          name: \'sa\',\
+          server_url:\'方法一 代码埋点中的数据接收地址\'\
+        });\
+        sa.quick(\'autoTrack\');\
+      <\/script>';
+      $('#vtrack_generate_config').on('click', function () {
+        var sdk_url = $('#vtrack_sdk_url').val();
+        console.log(sdk_url)
+        var config_url = $('#vtrack_config_url').val();
+        var server_url = $('#vtrack_server_url').val();
+        var options = '\<script\>\
+          (function(para) {\
+            var p = para.sdk_url, n = para.name, w = window, d = document, s = \'script\',x = null,y = null;\
+            w[\'sensorsDataAnalytic201505\'] = n;\
+            w[n] = w[n] || function(a) {return function() {(w[n]._q = w[n]._q || []).push([a, arguments]);}};\
+            var ifs = [\'track\',\'quick\',\'register\',\'registerPage\',\'registerOnce\',\'registerSession\',\'registerSessionOnce\',\'trackSignup\', \'trackAbtest\', \'setProfile\',\'setOnceProfile\',\'appendProfile\', \'incrementProfile\', \'deleteProfile\', \'unsetProfile\', \'identify\'];\
+            for (var i = 0; i < ifs.length; i++) {\
+              w[n][ifs[i]] = w[n].call(null, ifs[i]);\
+            }\
+            if (!w[n]._t) {\
+              x = d.createElement(s), y = d.getElementsByTagName(s)[0];\
+              x.async = 1;\
+              x.src = p;\
+              y.parentNode.insertBefore(x, y);\
+              w[n]._t = 1 * new Date();\
+              w[n].para = para;\
+            }\
+          })({\
+            sdk_url: \'' + sdk_url + '\',\
+            name: \'sa\',\
+            server_url:\''+ server_url +'\',\
+            config_url:\''+ config_url +'\'\
+          });\
+          sa.quick(\'autoTrack\');\
+        <\/script>';
+        $('#vtrack_config_result').html(options);
+        $('#vtrack_config_result').beautify();
+      });
+
+      $('#code_generate_config').on('click', function () {
+        var code_sdk_url = $('#code_sdk_url').val();
+        var code_name = $('#code_name').val();
+        var code_server_url = $('#code_server_url').val();
+        var options = '\<script\>\
+        (function(para) {\
+          var p = para.sdk_url, n = para.name, w = window, d = document, s = \'script\',x = null,y = null;\
+          w[\'sensorsDataAnalytic201505\'] = n;\
+          w[n] = w[n] || function(a) {return function() {(w[n]._q = w[n]._q || []).push([a, arguments]);}};\
+          var ifs = [\'track\',\'quick\',\'register\',\'registerPage\',\'registerOnce\',\'registerSession\',\'registerSessionOnce\',\'trackSignup\', \'trackAbtest\', \'setProfile\',\'setOnceProfile\',\'appendProfile\', \'incrementProfile\', \'deleteProfile\', \'unsetProfile\', \'identify\'];\
+          for (var i = 0; i < ifs.length; i++) {\
+            w[n][ifs[i]] = w[n].call(null, ifs[i]);\
+          }\
+          if (!w[n]._t) {\
+            x = d.createElement(s), y = d.getElementsByTagName(s)[0];\
+            x.async = 1;\
+            x.src = p;\
+            y.parentNode.insertBefore(x, y);\
+            w[n]._t = 1 * new Date();\
+            w[n].para = para;\
+          }\
+        })({\
+          sdk_url: \''+ code_sdk_url +'\',\
+          name: \'sa\',\
+          server_url:\''+ code_server_url +'\'\
+        });\
+        sa.quick(\'autoTrack\');\
+      <\/script>';
+        $('#code_config_result').html(options);
+        $('#code_config_result').beautify();
+      });
+
+    });
+
+  </script>
+</body>
+</html>
